@@ -1,0 +1,16 @@
+RAÍZES EM REDE — COMO INICIAR
+
+1) Instale Node.js 20+ e npm.
+2) Extraia a pasta do projeto.
+3) Abra o terminal dentro da pasta raizes-em-rede-mvp.
+4) Execute: npm install
+5) Execute: npm run dev
+6) Abra: http://localhost:5173
+7) Swagger: http://localhost:3333/docs
+
+Usuário gerente de demonstração:
+E-mail: gerente@raizesemrede.local
+Senha: Raizes123!
+
+Para uso acadêmico/demonstração. Não usar credenciais padrão em produção.
+Consulte README.md para instruções, limitações e coleção Postman.

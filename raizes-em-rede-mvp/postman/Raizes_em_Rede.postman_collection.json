@@ -1,0 +1,17 @@
+{
+  "info": {"name":"Raízes em Rede - API MVP","_postman_id":"c8d34c20-8e17-4b5f-9c1e-7f2a4fcb0011","description":"Coleção de testes manuais para a API acadêmica Raízes em Rede.","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable":[{"key":"baseUrl","value":"http://localhost:3333"},{"key":"token","value":""},{"key":"unitId","value":"1"},{"key":"productId","value":"1"},{"key":"orderCode","value":""}],
+  "item":[
+    {"name":"01 - Health","request":{"method":"GET","url":"{{baseUrl}}/health"}},
+    {"name":"02 - Listar unidades","request":{"method":"GET","url":"{{baseUrl}}/unidades"}},
+    {"name":"03 - Consultar cardápio","request":{"method":"GET","url":"{{baseUrl}}/unidades/{{unitId}}/cardapio"}},
+    {"name":"04 - Cadastrar cliente","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"nome\": \"Cliente Teste\",\n  \"email\": \"cliente.teste@example.com\",\n  \"senha\": \"Senha123!\"\n}"},"url":"{{baseUrl}}/auth/register"}},
+    {"name":"05 - Login gerente demonstração","event":[{"listen":"test","script":{"exec":["if (pm.response.code === 200) pm.collectionVariables.set('token', pm.response.json().token);"]}}],"request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"email\": \"gerente@raizesemrede.local\",\n  \"senha\": \"Raizes123!\"\n}"},"url":"{{baseUrl}}/auth/login"}},
+    {"name":"06 - Criar pedido aprovado","event":[{"listen":"test","script":{"exec":["if (pm.response.code === 201) pm.collectionVariables.set('orderCode', pm.response.json().pedido.codigo);"]}}],"request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Idempotency-Key","value":"pedido-teste-001"}],"body":{"mode":"raw","raw":"{\n  \"unidadeId\": 1,\n  \"canalPedido\": \"SITE\",\n  \"itens\": [{\"produtoId\": 1, \"quantidade\": 1}],\n  \"resultadoPagamento\": \"APROVADO\"\n}"},"url":"{{baseUrl}}/pedidos"}},
+    {"name":"07 - Consultar pedido","request":{"method":"GET","header":[{"key":"Authorization","value":"Bearer {{token}}"}],"url":"{{baseUrl}}/pedidos/{{orderCode}}"}},
+    {"name":"08 - Criar pedido com pagamento negado","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Idempotency-Key","value":"pedido-teste-negado-001"}],"body":{"mode":"raw","raw":"{\n  \"unidadeId\": 1,\n  \"canalPedido\": \"SITE\",\n  \"itens\": [{\"produtoId\": 2, \"quantidade\": 1}],\n  \"resultadoPagamento\": \"NEGADO\"\n}"},"url":"{{baseUrl}}/pedidos"}},
+    {"name":"09 - Atualizar status para preparando","request":{"method":"PATCH","header":[{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{token}}"}],"body":{"mode":"raw","raw":"{\"status\":\"PREPARANDO\"}"},"url":"{{baseUrl}}/pedidos/1/status"}},
+    {"name":"10 - Documentação OpenAPI JSON","request":{"method":"GET","url":"{{baseUrl}}/openapi.json"}},
+    {"name":"11 - Atualizar estoque","request":{"method":"PATCH","header":[{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{token}}"}],"body":{"mode":"raw","raw":"{\"quantidade\":15,\"disponivel\":true}"},"url":"{{baseUrl}}/estoque/{{unitId}}/{{productId}}"}}
+  ]
+}

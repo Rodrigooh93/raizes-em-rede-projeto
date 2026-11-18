@@ -1,0 +1,8 @@
+{
+  "name": "raizes-em-rede-mvp",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["api", "web"],
+  "scripts": {"install:all": "npm install", "dev": "concurrently \"npm run dev -w api\" \"npm run dev -w web\"", "test": "npm test -w api"},
+  "devDependencies": {"concurrently": "^9.1.2"}
+}
