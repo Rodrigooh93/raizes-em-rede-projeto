@@ -1,108 +1,132 @@
-# Raízes em Rede — MVP acadêmico
+# Raízes em Rede
 
-MVP integrado para demonstrar o fluxo de consulta de unidades/cardápio, cadastro e login, carrinho, criação de pedido, pagamento simulado e acompanhamento. O projeto é fictício e não processa pagamentos reais.
+## Sobre o projeto
 
-## Tecnologias
-- Front-End: React 18, TypeScript, Vite e Axios.
-- Back-End: Node.js, Express e TypeScript.
-- Banco de dados: SQLite (`better-sqlite3`), criado automaticamente em `api/data/raizes.sqlite`.
-- Autenticação: JWT e senha armazenada com hash bcrypt.
-- Documentação: Swagger UI e OpenAPI 3.1.
-- Testes manuais: coleção Postman em `postman/Raizes_em_Rede.postman_collection.json`.
+O Raízes em Rede é um projeto acadêmico desenvolvido para simular um sistema de pedidos de restaurante.
 
-## Requisitos
-- Node.js 20 ou superior (recomendado).
-- npm 10 ou superior.
+O sistema permite que clientes consultem o cardápio, realizem pedidos, simulem pagamentos e acompanhem o andamento de suas compras. Também possui uma área administrativa para gerenciamento de pedidos e funcionários.
+
+O objetivo é aplicar conhecimentos de desenvolvimento Front-End e Back-End, integrando interface, API e banco de dados.
+
+## Tecnologias utilizadas
+
+**Front-End**
+- React
+- TypeScript
+- Vite
+- Axios
+- HTML e CSS
+
+**Back-End**
+- Node.js
+- Express
+- TypeScript
+
+**Banco de dados e ferramentas**
+- SQLite
+- JWT e bcrypt para autenticação
+- Swagger para documentação da API
+- Postman para testes de requisições
+
+## Funcionalidades
+
+### Área do cliente
+- Cadastro e login.
+- Consulta ao cardápio.
+- Seleção de produtos e carrinho de compras.
+- Realização de pedidos.
+- Simulação de pagamento aprovado ou recusado.
+- Consulta ao histórico e acompanhamento dos pedidos.
+
+### Área administrativa
+- Acesso com diferentes perfis de usuário.
+- Painel do CHEFE para administração da equipe.
+- Cadastro de gerentes e colaboradores.
+- Consulta de funcionários cadastrados.
+- Atualização do andamento dos pedidos por usuários autorizados.
+- Controle de permissões conforme o cargo.
+
+## Estrutura do projeto
+
+```text
+raizes-em-rede-mvp/
+├── api/          # Back-End e banco de dados
+├── web/          # Interface do sistema
+├── docs/         # Documentação
+├── postman/      # Coleção de testes
+├── README.md
+├── package.json
+└── package-lock.json
+```
 
 ## Como executar
-Abra um terminal na pasta raiz do projeto:
+
+É necessário ter Node.js e npm instalados.
+
+Abra o terminal na pasta principal do projeto e execute:
 
 ```bash
 npm install
 npm run dev
 ```
 
-A interface ficará em `http://localhost:5173` e a API em `http://localhost:3333`.
+Depois, acesse:
 
-Se preferir executar separadamente:
+- **Site:** http://localhost:5173
+- **API:** http://localhost:3333
+- **Documentação Swagger:** http://localhost:3333/docs
+
+Caso seja necessário iniciar separadamente:
 
 ```bash
 npm run dev -w api
 npm run dev -w web
 ```
 
-## Acessos e dados de demonstração
-A API cria automaticamente duas unidades e cinco produtos fictícios no primeiro início. Também cria um usuário de gerente para testar operações administrativas:
+Execute cada comando em um terminal diferente.
 
-- E-mail: `gerente@raizesemrede.local`
-- Senha: `Raizes123!`
+## Funcionamento do sistema
 
-Crie clientes pela opção “Criar conta” no Front-End ou pelo endpoint `POST /auth/register`.
+1. O cliente realiza seu cadastro e entra no sistema.
+2. Escolhe os produtos disponíveis no cardápio.
+3. Adiciona os itens ao carrinho e confirma o pedido.
+4. Seleciona o resultado do pagamento simulado.
+5. Consulta os detalhes e o andamento do pedido.
+6. A equipe autorizada pode atualizar o status do pedido.
+7. O CHEFE pode administrar o cadastro de funcionários.
 
-> Credenciais de demonstração: não reutilize em produção. A chave JWT padrão também deve ser substituída antes de qualquer publicação.
+## Segurança
 
-## Endereços úteis
-- Front-End: `http://localhost:5173`
-- API: `http://localhost:3333`
-- Verificação: `http://localhost:3333/health`
-- Swagger: `http://localhost:3333/docs`
-- OpenAPI JSON: `http://localhost:3333/openapi.json`
+O sistema utiliza autenticação com JWT e armazenamento de senhas com hash.
 
-## Fluxo de demonstração
-1. Inicie API e Front-End.
-2. No site, crie uma conta de cliente e entre.
-3. Selecione uma unidade e adicione itens ao carrinho.
-4. Confirme o pedido. O servidor recalcula os preços com base no banco.
-5. A tela apresenta o código do pedido e o resultado de pagamento simulado.
-6. Use o código em “Acompanhe seu pedido”.
-7. Para testar funções de gerente, autentique-se com a conta de demonstração e use a coleção Postman.
+As funcionalidades administrativas possuem restrições de acesso conforme o perfil do usuário.
 
-## Regras implementadas no MVP
-- O servidor calcula o total; o navegador não envia preço como valor confiável.
-- Pedido exige unidade, canal (`SITE`, `APP`, `TOTEM`, `BALCAO`) e itens válidos.
-- Produto indisponível ou estoque insuficiente impede a criação.
-- A chave `Idempotency-Key` evita criar novamente um pedido com a mesma chave.
-- Pagamento é simulado como `APROVADO` ou `NEGADO`.
-- Cliente consulta somente seus próprios pedidos; perfis operacionais têm permissões específicas.
-- Transições de status são validadas no servidor e registradas em auditoria.
+As configurações sensíveis são mantidas em variáveis de ambiente e não devem ser publicadas no GitHub.
 
 ## Testes
-Importe a coleção `postman/Raizes_em_Rede.postman_collection.json` no Postman. Execute o login de gerente antes dos endpoints protegidos. Os IDs de unidade/produto e de pedido podem precisar ser ajustados conforme a base de dados local.
 
-## Limitações conhecidas do MVP
-- O pagamento é mock e não captura dinheiro real.
-- O estoque é validado no pedido, mas a baixa automática de estoque ainda não está ativada.
-- Não há recuperação de senha, envio de e-mail, integração fiscal, logística, gateway de pagamento ou publicação em nuvem.
-- O painel administrativo visual completo e a gestão de produtos ainda podem ser ampliados.
-- O banco local é SQLite; para produção, deve ser avaliada uma solução gerenciada, backups, migrações e controles adicionais.
-- O Swagger inicial descreve os principais endpoints e pode ser ampliado para documentar todos os esquemas e respostas.
+O projeto possui uma coleção Postman na pasta `postman`, destinada à verificação dos endpoints da API.
 
-## Segurança e publicação
-Antes de publicar: definir `JWT_SECRET` forte em variável de ambiente, restringir CORS ao domínio real, usar HTTPS, revisar logs, política de privacidade e LGPD, configurar backup e executar testes de segurança. Não incluir `.env`, tokens ou dados pessoais reais no repositório.
+Também podem ser realizados testes pela interface, como cadastro, login, criação de pedidos, simulação de pagamento e gerenciamento da equipe.
 
-## Relação com o relatório acadêmico
-Este repositório é uma implementação demonstrativa inicial da proposta. Atualize o relatório para refletir as funcionalidades efetivamente testadas no ambiente da disciplina. Não declare testes, deploy ou integrações que não tenham sido realizados.
+## Limitações
 
+Este é um projeto acadêmico demonstrativo.
 
-## Melhorias da versão 2
-- Cadastro de cliente seguido de login automático, com mensagem explícita para e-mail duplicado.
-- Consulta de pedido com orientação para autenticação e painel de resultado.
-- Listagem dos pedidos do cliente autenticado via `GET /me/pedidos`.
-- Opção de simular pagamento aprovado ou recusado. Não há cobrança real.
-- Fluxos inspirados em referências públicas, com implementação própria e adaptação ao MVP.
+- Os pagamentos são simulados e não envolvem dinheiro real.
+- O banco de dados é local.
+- O sistema não possui integração com serviços externos de pagamento ou entrega.
+- Algumas funcionalidades administrativas podem ser ampliadas futuramente.
 
-### Referências consultadas
-- https://github.com/dimybruno94/rede-raizes/blob/main/02-DIAGRAMAS_UML.md
-- https://github.com/paulohlimadacruz-hue/raizes-do-nordeste/tree/main/rede-raizes
+## Referências
 
-### Atenção
-A versão 2 não deve ser apresentada como totalmente testada sem executar os cenários localmente.
+Foram consultados materiais de apoio e exemplos públicos de projetos semelhantes:
 
+- https://github.com/dimybruno94/rede-raizes
+- https://github.com/paulohlimadacruz-hue/raizes-do-nordeste
 
-## Atualização v4: cardápio e histórico detalhado
+## Considerações finais
 
-- Cardápio demonstrativo ampliado para **22 produtos**, entre pratos regionais, acompanhamentos, bebidas, sobremesas e snacks.
-- A lista **Meus pedidos** permite selecionar um pedido e consultar seus itens, quantidades, preços unitários, subtotais, total e situação.
-- Os produtos são incluídos no banco automaticamente ao iniciar a API, sem apagar os registros anteriores (inserção somente se o nome ainda não existir).
-- **Preservar pedidos antigos:** a base SQLite fica em `data/raizes.sqlite` relativa à pasta de onde se executa `npm run dev`. Se for instalar em outra pasta, com o servidor desligado, copie a pasta `data` do projeto anterior para a pasta raiz do novo projeto **antes** de iniciar a versão v4. Faça uma cópia de segurança primeiro. Não substitua uma base nova que contenha dados importantes.
-- Valores e endereços são fictícios; pagamento é apenas simulado.
+O desenvolvimento do Raízes em Rede permitiu trabalhar conceitos de criação de interfaces, comunicação entre Front-End e Back-End, autenticação de usuários, banco de dados e organização de uma aplicação web.
+
+O projeto demonstra um fluxo básico de pedidos para restaurante, com funcionalidades voltadas aos clientes e à equipe administrativa.
