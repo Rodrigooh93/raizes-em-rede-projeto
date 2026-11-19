@@ -105,9 +105,31 @@ As configurações sensíveis são mantidas em variáveis de ambiente e não dev
 
 ## Testes
 
-O projeto possui uma coleção Postman na pasta `postman`, destinada à verificação dos endpoints da API.
+## Testes
 
-Também podem ser realizados testes pela interface, como cadastro, login, criação de pedidos, simulação de pagamento e gerenciamento da equipe.
+O Back-End do Raízes em Rede foi validado por meio do Postman, utilizando uma coleção com 17 cenários de teste, incluindo 11 positivos e 6 negativos.
+
+**Resultados da execução:**
+- 17 cenários executados.
+- 28 verificações aprovadas.
+- 0 verificações reprovadas.
+- 0 erros de execução.
+- Taxa de aprovação: 100%.
+
+Os testes abrangem autenticação, cadastro de clientes, consulta de unidades e cardápios, criação e consulta de pedidos, atualização de status, permissões de acesso, validação de dados, estoque insuficiente e pagamentos simulados.
+
+### Como executar os testes
+
+1. Inicie o projeto com `npm install` e `npm run dev`.
+2. Abra o Postman.
+3. Importe a coleção JSON disponível na pasta `postman`.
+4. Confirme que a variável `baseUrl` aponta para `http://localhost:3333`.
+5. Execute os cenários T01 a T17 na ordem indicada, utilizando o Collection Runner.
+6. Consulte os resultados das verificações automáticas.
+
+A documentação interativa da API está disponível em `http://localhost:3333/docs`, com o servidor em execução.
+
+**Observação:** os resultados apresentados correspondem à execução realizada no ambiente local de desenvolvimento. Novas execuções dependem da configuração adequada do ambiente e dos dados de teste.
 
 ## Limitações
 
